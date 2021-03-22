@@ -24,20 +24,15 @@ Microsoft Visual StudioÓÃ×÷IDE£¬µ«ÊÇÈç¹ûÄúÊ¹ÓÃµÄ²Ù×÷ÏµÍ³²»Í¬ÓÚWindows£¬ÉõÖÁ»¹¿ÉÒ
 
 /*
 ÔÚIrrlichtÒıÇæÖĞ£¬ËùÓĞÄÚÈİ¶¼¿ÉÒÔÔÚÃû³Æ¿Õ¼ä¡°irr¡±ÖĞÕÒµ½¡£ 
-Òò´Ë£¬Èç¹ûÒªÊ¹ÓÃÒıÇæµÄÀà£¬Ôò±ØĞëÔÚ¸ÃÀàµÄÃû³ÆÖ®Ç°±àĞ´irr::¡£ 
-ÀıÈç£¬Ê¹ÓÃIrrlichtDevice±àĞ´£ºirr::IrrlichtDevice¡£
-ÎªÁË°ÚÍÑirr::ÔÚÃ¿¸öÀàµÄÃû³ÆÇ°Ãæ£¬ÎÒÃÇ¸æËß±àÒëÆ÷ÎÒÃÇ´ÓÏÖÔÚ¿ªÊ¼Ê¹ÓÃ¸ÃÃû³Æ¿Õ¼ä£¬²¢ÇÒÎÒÃÇ½«²»ÔÙĞèÒª±àĞ´irr::¡£
+Òò´Ë£¬Èç¹ûÒªÊ¹ÓÃÒıÇæµÄÀà£¬Ôò±ØĞëÔÚ¸ÃÀàµÄÃû³ÆÖ®Ç°±àĞ´irr:: 
+ÀıÈç£¬Ê¹ÓÃIrrlichtDevice±àĞ´£ºirr::IrrlichtDevice
+ÎªÁË°ÚÍÑirr::ÔÚÃ¿¸öÀàµÄÃû³ÆÇ°Ãæ£¬ÎÒÃÇ¸æËß±àÒëÆ÷ÎÒÃÇ´ÓÏÖÔÚ¿ªÊ¼Ê¹ÓÃ¸ÃÃû³Æ¿Õ¼ä£¬²¢ÇÒÎÒÃÇ½«²»ÔÙĞèÒª±àĞ´irr::
 */
 using namespace irr;
 
 /*
-There are 5 sub namespaces in the Irrlicht Engine. Take a look at them, you can
-read a detailed description of them in the documentation by clicking on the top
-menu item 'Namespace List' or by using this link:
-http://irrlicht.sourceforge.net/docu/namespaces.html
-Like the irr namespace, we do not want these 5 sub namespaces now, to keep this
-example simple. Hence, we tell the compiler again that we do not want always to
-write their names.
+IrrlichtÒıÇæÖĞÓĞ5¸ö×ÓÃû³Æ¿Õ¼ä¡£ ¿´¿´ËüÃÇ£¬Äú¿ÉÒÔÊ¹ÓÃ´ËÁ´½ÓÀ´ÔÄ¶ÁËüÃÇµÄÏêÏ¸ËµÃ÷£ºhttp://irrlicht.sourceforge.net/docu/namespaces.html 
+ÈçirrÃû³Æ¿Õ¼äÒ»Ñù£¬ÎÒÃÇÏÖÔÚ²»Ï£ÍûÒ»Ö±ÉùÃ÷Õâ5¸ö×ÓÃû³Æ¿Õ¼ä£¬ÒÔÊ¹´ËÊ¾Àı±£³Ö¼òµ¥¡£Òò´Ë£¬ÎÒÃÇÔÙ´Î¸æËß±àÒëÆ÷ÎÒÃÇ²»Ï£Íû×ÜÊÇĞ´ËüÃÇµÄÃû³Æ¡£
 */
 using namespace core;
 using namespace scene;
@@ -46,12 +41,10 @@ using namespace io;
 using namespace gui;
 
 /*
-To be able to use the Irrlicht.DLL file, we need to link with the Irrlicht.lib.
-We could set this option in the project settings, but to make it easy, we use a
-pragma comment lib for VisualStudio. On Windows platforms, we have to get rid
-of the console window, which pops up when starting a program with main(). This
-is done by the second pragma. We could also use the WinMain method, though
-losing platform independence then.
+ÎªÁËÄÜ¹»Ê¹ÓÃIrrlicht.DLLÎÄ¼ş£¬ÎÒÃÇĞèÒªÓëIrrlicht.libÁ´½Ó¡£
+ÎÒÃÇ¿ÉÒÔÔÚÏîÄ¿ÉèÖÃÖĞÉèÖÃ´ËÑ¡Ïî£¬µ«ÊÇÎªÁË¼òµ¥Æğ¼û£¬ÎÒÃÇÎªVisualStudioÊ¹ÓÃÁËÔÓ×¢×¢ÊÍ¿â¡£
+ÔÚWindowsÆ½Ì¨ÉÏ£¬ÎÒÃÇ±ØĞë°ÚÍÑ¿ØÖÆÌ¨´°¿Ú£¬¸Ã¿ØÖÆÌ¨´°¿ÚÔÚÊ¹ÓÃmain()Æô¶¯³ÌĞòÊ±»áµ¯³ö¡£ 
+ÕâÊÇÓÉµÚ¶ş¸öÊµÓÃ³ÌĞòÍê³ÉµÄ¡£ÎÒÃÇÒ²¿ÉÒÔÊ¹ÓÃWinMain·½·¨£¬¾¡¹ÜÄÇÑù»áÊ§È¥Æ½Ì¨¶ÀÁ¢ĞÔ¡£
 */
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -65,37 +58,25 @@ This is the main method. We can now use main() on every platform.
 int main()
 {
 	/*
-	The most important function of the engine is the createDevice()
-	function. The IrrlichtDevice is created by it, which is the root
-	object for doing anything with the engine. createDevice() has 7
-	parameters:
+	ÒıÇæ×îÖØÒªµÄ¹¦ÄÜÊÇcreateDevice£¨£©º¯Êı¡£  
+	IrrlichtDeviceÓÉËü´´½¨£¬ËüÊÇÊ¹ÓÃÒıÇæÖ´ĞĞÈÎºÎ²Ù×÷µÄ¸ù¶ÔÏó¡£createDevice£¨£©¾ßÓĞ7¸ö²ÎÊı£º
 
-	- deviceType: Type of the device. This can currently be the Null-device,
-	   one of the two software renderers, D3D8, D3D9, or OpenGL. In this
-	   example we use EDT_SOFTWARE, but to try out, you might want to
-	   change it to EDT_BURNINGSVIDEO, EDT_NULL, EDT_DIRECT3D8,
-	   EDT_DIRECT3D9, or EDT_OPENGL.
+	- deviceType: Éè±¸µÄÀàĞÍ¡£ µ±Ç°¿ÉÒÔÊÇNullÉè±¸£¬¿ÉÒÔÊÇÈí¼şäÖÈ¾Æ÷D3D8£¬D3D9»òOpenGLÈıÕßÖ®Ò»¡£ 
+	ÔÚ´ËÊ¾ÀıÖĞ£¬ÎÒÃÇÊ¹ÓÃEDT_SOFTWARE£¬µ«Òª½øĞĞ³¢ÊÔ£¬Äú¿ÉÄÜĞèÒª½«Æä¸ü¸ÄÎªEDT_BURNINGSVIDEO£¬EDT_NULL£¬EDT_DIRECT3D8£¬EDT_DIRECT3D9»òEDT_OPENGL.
 
-	- windowSize: Size of the Window or screen in FullScreenMode to be
-	   created. In this example we use 640x480.
+	- windowSize: ÒªÔÚFullScreenModeÖĞ´´½¨µÄ´°¿Ú»òÆÁÄ»µÄ´óĞ¡¡£ÔÚ´ËÊ¾ÀıÖĞ£¬ÎÒÃÇÊ¹ÓÃ640x480.
 
-	- bits: Amount of color bits per pixel. This should be 16 or 32. The
-	   parameter is often ignored when running in windowed mode.
+	- bits: Ã¿¸öÏñËØµÄÑÕÉ«Î»Êı¡£ËüÓ¦¸ÃÊÇ16»ò32¡£ÔÚ´°¿ÚÄ£Ê½ÏÂÔËĞĞÊ±£¬Í¨³£»áºöÂÔ¸Ã²ÎÊı¡£
 
-	- fullscreen: Specifies if we want the device to run in fullscreen mode
-	   or not.
+	- fullscreen: Ö¸¶¨ÎÒÃÇÊÇ·ñÏ£ÍûÉè±¸ÒÔÈ«ÆÁÄ£Ê½ÔËĞĞ¡£
 
-	- stencilbuffer: Specifies if we want to use the stencil buffer (for
-	   drawing shadows).
+	- stencilbuffer: Ö¸¶¨ÊÇ·ñÒªÊ¹ÓÃÄ£°å»º³åÇø£¨ÓÃÓÚ»æÖÆÒõÓ°£©¡£
 
-	- vsync: Specifies if we want to have vsync enabled, this is only useful
-	   in fullscreen mode.
+	- vsync: Ö¸¶¨ÊÇ·ñÒªÆôÓÃvsync£¬Õâ½öÔÚÈ«ÆÁÄ£Ê½ÏÂÓĞÓÃ¡£
 
-	- eventReceiver: An object to receive events. We do not want to use this
-	   parameter here, and set it to 0.
+	- eventReceiver: ½ÓÊÕÊÂ¼şµÄ¶ÔÏó¡£ÎÒÃÇ²»ÏëÔÚÕâÀïÊ¹ÓÃ´Ë²ÎÊı£¬²¢½«ÆäÉèÖÃÎª0¡£
 
-	Always check the return value to cope with unsupported drivers,
-	dimensions, etc.
+	Ê¼ÖÕ¼ì²é·µ»ØÖµÒÔÓ¦¶Ô²»Ö§³ÖµÄÇı¶¯Æ÷£¬³ß´çµÈ¡£
 	*/
 	IrrlichtDevice* device =
 		createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16,
@@ -105,41 +86,33 @@ int main()
 		return 1;
 
 	/*
-	Set the caption of the window to some nice text. Note that there is an
-	'L' in front of the string. The Irrlicht Engine uses wide character
-	strings when displaying text.
+	½«´°¿ÚµÄ±êÌâÉèÖÃÎªÒ»Ğ©Æ¯ÁÁµÄÎÄ±¾¡£ 
+	Çë×¢Òâ£¬×Ö·û´®Ç°ÃæÓĞÒ»¸ö¡°L¡±¡£IrrlichtÒıÇæÔÚÏÔÊ¾ÎÄ±¾Ê±Ê¹ÓÃ¿í×Ö·û´®
 	*/
 	device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
 
 	/*
-	Get a pointer to the VideoDriver, the SceneManager and the graphical
-	user interface environment, so that we do not always have to write
-	device->getVideoDriver(), device->getSceneManager(), or
-	device->getGUIEnvironment().
+	»ñÈ¡Ö¸ÏòVideoDriver£¬SceneManagerºÍÍ¼ĞÎÓÃ»§½çÃæ»·¾³µÄÖ¸Õë£¬
+	ÒÔ±ãÎÒÃÇ²»±Ø×ÜÊÇ±àĞ´device->getVideoDriver()£¬device->getSceneManager()»òdevice->getGUIEnvironment()
 	*/
 	IVideoDriver* driver = device->getVideoDriver();
 	ISceneManager* smgr = device->getSceneManager();
 	IGUIEnvironment* guienv = device->getGUIEnvironment();
 
 	/*
-	We add a hello world label to the window, using the GUI environment.
-	The text is placed at the position (10,10) as top left corner and
-	(260,22) as lower right corner.
+	ÎÒÃÇÊ¹ÓÃGUI»·¾³ÔÚ´°¿ÚÖĞÌí¼ÓÒ»¸öhello world±êÇ©¡£
+    ÎÄ±¾·ÅÔÚ×óÉÏ½Ç£¨10,10£©ºÍÓÒÏÂ½Ç£¨260,22£©´¦¡£
 	*/
 	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",
 		rect<s32>(10, 10, 260, 22), true);
 
 	/*
-	To show something interesting, we load a Quake 2 model and display it.
-	We only have to get the Mesh from the Scene Manager with getMesh() and add
-	a SceneNode to display the mesh with addAnimatedMeshSceneNode(). We
-	check the return value of getMesh() to become aware of loading problems
-	and other errors.
+	ÎªÁËÏÔÊ¾Ò»Ğ©ÓĞÈ¤µÄ¶«Î÷£¬ÎÒÃÇ¼ÓÔØQuake 2Ä£ĞÍ²¢ÏÔÊ¾Ëü¡£
+	ÎÒÃÇÖ»ĞèÒªÊ¹ÓÃgetMesh£¨£©´Ó¡°³¡¾°¹ÜÀíÆ÷¡±ÖĞ»ñÈ¡Íø¸ñÎïÌå£¬²¢Ìí¼ÓÒ»¸öSceneNode¼´¿ÉÊ¹ÓÃaddAnimatedMeshSceneNode£¨£©ÏÔÊ¾Íø¸ñÎïÌå¡£ 
+	ÎÒÃÇ¼ì²égetMesh£¨£©µÄ·µ»ØÖµÒÔÁË½â¼ÓÔØÎÊÌâºÍÆäËû´íÎó¡£
 
-	Instead of writing the filename sydney.md2, it would also be possible
-	to load a Maya object file (.obj), a complete Quake3 map (.bsp) or any
-	other supported file format. By the way, that cool Quake 2 model
-	called sydney was modelled by Brian Collins.
+	³ıÁË±àĞ´ÎÄ¼şÃûsydney.md2£¬»¹¿ÉÒÔ¼ÓÔØMayaÄ¿±êÎÄ¼ş£¨.obj£©£¬ÍêÕûµÄQuake3Ó³Éä£¨.bsp£©»òÈÎºÎÆäËûÊÜÖ§³ÖµÄÎÄ¼ş¸ñÊ½¡£ 
+	Ë³±ãËµÒ»¾ä£¬¿áìÅµÄQuake 2Ä£ĞÍ½Ğ×öSydneyÊÇÓÉBrian Collins½¨Ä£µÄ¡£
 	*/
 	IAnimatedMesh* mesh = smgr->getMesh("sydney.md2");
 	if (!mesh)
@@ -150,12 +123,10 @@ int main()
 	IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode(mesh);
 
 	/*
-	To let the mesh look a little bit nicer, we change its material. We
-	disable lighting because we do not have a dynamic light in here, and
-	the mesh would be totally black otherwise. Then we set the frame loop,
-	such that the predefined STAND animation is used. And last, we apply a
-	texture to the mesh. Without it the mesh would be drawn using only a
-	color.
+	ÎªÁËÈÃÍø¸ñ¿´ÆğÀ´¸üºÃÒ»µã£¬ÎÒÃÇ¸ü¸ÄÆä²ÄÖÊ¡£ 
+	ÎÒÃÇ½ûÓÃÕÕÃ÷£¬ÒòÎª´Ë´¦Ã»ÓĞ¶¯Ì¬ÕÕÃ÷£¬·ñÔòÍø¸ñ½«ÍêÈ«±äÎªºÚÉ«¡£ 
+	È»ºó£¬ÎÒÃÇÉèÖÃÖ¡Ñ­»·£¬ÒÔ±ãÊ¹ÓÃÔ¤¶¨ÒåµÄSTAND¶¯»­¡£ 
+	×îºó£¬ÎÒÃÇ½«ÎÆÀíÓ¦ÓÃÓÚÍø¸ñ¡£ Èç¹ûÃ»ÓĞËü£¬½«½öÊ¹ÓÃÒ»ÖÖÑÕÉ«À´»æÖÆÍø¸ñ¡£
 	*/
 	if (node)
 	{
@@ -165,26 +136,23 @@ int main()
 	}
 
 	/*
-	To look at the mesh, we place a camera into 3d space at the position
-	(0, 30, -40). The camera looks from there to (0,5,0), which is
-	approximately the place where our md2 model is.
+	ÎªÁË²é¿´Íø¸ñ£¬ÎÒÃÇ½«Ïà»ú·ÅÖÃÔÚ3d¿Õ¼äÖĞµÄÎ»ÖÃ£¨0¡¢30£¬-40£©¡£ 
+	Ïà»ú´ÓÄÇÀï¿´Ïò£¨0,5,0£©£¬´óÔ¼ÊÇÎÒÃÇµÄmd2Ä£ĞÍËùÔÚµÄµØ·½¡£
 	*/
 	smgr->addCameraSceneNode(0, vector3df(0, 30, -40), vector3df(0, 5, 0));
 
 	/*
-	Ok, now we have set up the scene, lets draw everything: We run the
-	device in a while() loop, until the device does not want to run any
-	more. This would be when the user closes the window or presses ALT+F4
-	(or whatever keycode closes a window).
+	ºÃµÄ£¬ÏÖÔÚÎÒÃÇÒÑ¾­ÉèÖÃºÃ³¡¾°£¬ÈÃÎÒÃÇ»æÖÆËùÓĞÄÚÈİ£º
+	ÎÒÃÇÔÚwhile£¨£©Ñ­»·ÖĞÔËĞĞÉè±¸£¬Ö±µ½¸ÃÉè±¸²»ÔÙĞèÒªÔËĞĞÎªÖ¹¡£ 
+	Õâ½«ÊÇÓÃ»§¹Ø±Õ´°¿Ú»ò°´ALT + F4£¨»òÈÎºÎ¼üÂë¹Ø±Õ´°¿Ú£©µÄÊ±¼ä¡£
 	*/
 	while (device->run())
 	{
 		/*
-		Anything can be drawn between a beginScene() and an endScene()
-		call. The beginScene() call clears the screen with a color and
-		the depth buffer, if desired. Then we let the Scene Manager and
-		the GUI Environment draw their content. With the endScene()
-		call everything is presented on the screen.
+		ÔÚbeginScene£¨£©ºÍendScene£¨£©µ÷ÓÃÖ®¼ä¿ÉÒÔ»æÖÆÈÎºÎÄÚÈİ¡£ 
+		Èç¹ûĞèÒª£¬beginScene£¨£©µ÷ÓÃ½«Ê¹ÓÃÑÕÉ«ºÍÉî¶È»º³åÇøÇå³ıÆÁÄ»¡£ 
+		È»ºó£¬ÈÃ³¡¾°¹ÜÀíÆ÷ºÍGUI»·¾³»æÖÆËüÃÇµÄÄÚÈİ¡£
+		Í¨¹ıendScene£¨£©µ÷ÓÃ£¬ËùÓĞÄÚÈİ¶¼»áÏÔÊ¾ÔÚÆÁÄ»ÉÏ¡£
 		*/
 		driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
@@ -195,12 +163,9 @@ int main()
 	}
 
 	/*
-	After we are done with the render loop, we have to delete the Irrlicht
-	Device created before with createDevice(). In the Irrlicht Engine, you
-	have to delete all objects you created with a method or function which
-	starts with 'create'. The object is simply deleted by calling ->drop().
-	See the documentation at irr::IReferenceCounted::drop() for more
-	information.
+	Íê³ÉäÖÈ¾Ñ­»·ºó£¬ÎÒÃÇ±ØĞëÉ¾³ıÊ¹ÓÃcreateDevice£¨£©Ö®Ç°´´½¨µÄIrrlichtÉè±¸¡£ 
+	ÔÚIrrlichtÒıÇæÖĞ£¬Äú±ØĞëÉ¾³ıÊ¹ÓÃÒÔ'create'¿ªÍ·µÄ·½·¨»òº¯Êı´´½¨µÄËùÓĞ¶ÔÏó¡£Ö»Ğèµ÷ÓÃ-> drop£¨£©¼´¿ÉÉ¾³ı¸Ã¶ÔÏó¡£
+	ÓĞ¹Ø¸ü¶àĞÅÏ¢£¬Çë²Î¼ûirr::IReferenceCounted::drop£¨£©ÉÏµÄÎÄµµ¡£
 	*/
 	device->drop();
 

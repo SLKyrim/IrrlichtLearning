@@ -1,5 +1,7 @@
 HelloWorld/.vs/*
 HelloWorld/x64/*
+*/.vs/*
+*/x64/*
 
 # Prerequisites
 *.d
