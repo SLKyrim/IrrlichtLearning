@@ -1,7 +1,7 @@
-HelloWorld/.vs/*
-HelloWorld/x64/*
-*/.vs/*
-*/x64/*
+example/*/.vs/*
+example/*/x64/*
+example/*/Debug/*
+.vs/*
 
 # Prerequisites
 *.d
