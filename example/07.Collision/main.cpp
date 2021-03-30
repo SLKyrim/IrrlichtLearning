@@ -1,14 +1,12 @@
 /** Example 007 Collision
 
-We will describe 2 methods: Automatic collision detection for moving through
-3d worlds with stair climbing and sliding, and manual scene node and triangle
-picking using a ray.  In this case, we will use a ray coming out from the
-camera, but you can use any ray.
+我们将描述2种方法：通过楼梯爬升和滑动在3d世界中移动的自动碰撞检测，以及使用射线进行手动场景节点和三角形拾取的方法。
+在这种情况下，我们将使用相机发出的光线，但是您可以使用任何光线。
 
-To start, we take the program from tutorial 2, which loads and displays a
-quake 3 level. We will use the level to walk in it and to pick triangles from.
-In addition we'll place 3 animated models into it for triangle picking. The
-following code starts up the engine and loads the level, as per tutorial 2.
+首先，我们从教程2中获取程序，该程序将加载并显示地震3级别。
+我们将使用水平仪在其中行走并从中拾取三角形。
+此外，我们还将在其中放置3个动画模型以进行三角形拾取。
+根据教程2，以下代码将启动引擎并加载级别。
 */
 #include <irrlicht.h>
 #include "driverChoice.h"
@@ -21,17 +19,14 @@ using namespace irr;
 
 enum
 {
-	// I use this ISceneNode ID to indicate a scene node that is
-	// not pickable by getSceneNodeAndCollisionPointFromRay()
+	// 我使用此ISceneNode ID指示getSceneNodeAndCollisionPointFromRay()无法拾取的场景节点
 	ID_IsNotPickable = 0,
 
-	// I use this flag in ISceneNode IDs to indicate that the
-	// scene node can be picked by ray selection.
+	// 我在ISceneNode ID中使用此标志来指示可以通过射线选择来拾取场景节点。
 	IDFlag_IsPickable = 1 << 0,
-
-	// I use this flag in ISceneNode IDs to indicate that the
-	// scene node can be highlighted.  In this example, the
-	// homonids can be highlighted, but the level mesh can't.
+ 
+	// 我在ISceneNode ID中使用此标志来指示可以突出显示场景节点。
+	// 在此示例中，同形异体可以突出显示，但水平网格不能。
 	IDFlag_IsHighlightable = 1 << 1
 };
 
@@ -58,23 +53,19 @@ int main()
 	scene::IAnimatedMesh* q3levelmesh = smgr->getMesh("20kdm2.bsp");
 	scene::IMeshSceneNode* q3node = 0;
 
-	// The Quake mesh is pickable, but doesn't get highlighted.
+	// Quake网格是可拾取的，但不会突出显示。
 	if (q3levelmesh)
 		q3node = smgr->addOctreeSceneNode(q3levelmesh->getMesh(0), 0, IDFlag_IsPickable);
 
 	/*
-	So far so good, we've loaded the quake 3 level like in tutorial 2. Now,
-	here comes something different: We create a triangle selector. A
-	triangle selector is a class which can fetch the triangles from scene
-	nodes for doing different things with them, for example collision
-	detection. There are different triangle selectors, and all can be
-	created with the ISceneManager. In this example, we create an
-	OctreeTriangleSelector, which optimizes the triangle output a little
-	bit by reducing it like an octree. This is very useful for huge meshes
-	like quake 3 levels. After we created the triangle selector, we attach
-	it to the q3node. This is not necessary, but in this way, we do not
-	need to care for the selector, for example dropping it after we do not
-	need it anymore.
+
+	到目前为止，我们已经像教程2中一样加载了地震3级。
+	现在，有了一些不同的东西：我们创建一个三角形选择器。
+	三角形选择器是一个类，可以从场景节点中提取三角形以对其执行不同的操作，例如碰撞检测。
+	有不同的三角形选择器，都可以使用ISceneManager创建。
+	在此示例中，我们创建了一个OctreeTriangleSelector，它通过像八叉树一样减少三角形输出来对三角形输出进行一些优化。
+	这对于诸如地震3级的巨大网格非常有用。
+	创建三角形选择器后，将其附加到q3node。这不是必需的，但是通过这种方式，我们不需要关心选择器，例如，在不再需要选择器之后将其删除。
 	*/
 
 	scene::ITriangleSelector* selector = 0;
@@ -86,7 +77,7 @@ int main()
 		selector = smgr->createOctreeTriangleSelector(
 			q3node->getMesh(), q3node, 128);
 		q3node->setTriangleSelector(selector);
-		// We're not done with this selector yet, so don't drop it.
+		// 我们尚未使用此选择器，所以请不要删除它。
 	}
 
 

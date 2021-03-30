@@ -1,12 +1,10 @@
 /** Example 016 Quake3 Map Shader Support
 
-This Tutorial shows how to load a Quake 3 map into the
-engine, create a SceneNode for optimizing the speed of
-rendering and how to create a user controlled camera.
+本教程显示了如何将Quake 3贴图加载到引擎中，
+如何创建SceneNode以优化渲染速度以及如何创建用户控制的相机。
 
-Lets start like the HelloWorld example: We include
-the irrlicht header files and an additional file to be able
-to ask the user for a driver type using the console.
+让我们从HelloWorld示例开始：
+我们包括irrlicht头文件和一个附加文件，以便能够使用控制台向用户询问驱动程序类型。
 */
 #include <irrlicht.h>
 #include "driverChoice.h"

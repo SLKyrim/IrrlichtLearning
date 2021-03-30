@@ -1,15 +1,12 @@
 /** Example 004 Movement
 
-This Tutorial shows how to move and animate SceneNodes. The
-basic concept of SceneNodeAnimators is shown as well as manual
-movement of nodes using the keyboard.  We'll demonstrate framerate
-independent movement, which means moving by an amount dependent
-on the duration of the last run of the Irrlicht loop.
+本教程显示了如何移动和使SceneNodes变成动画。
+显示了SceneNodeAnimators的基本概念，以及使用键盘进行的节点手动移动。
+我们将演示独立于帧率的移动，这意味着移动量取决于Irrlicht循环的最后一次运行的持续时间。
 
-Example 19.MouseAndJoystick shows how to handle those kinds of input.
+示例19.MouseAndJoystick显示了如何处理这些类型的输入。
 
-As always, I include the header files, use the irr namespace,
-and tell the linker to link with the .lib file.
+和往常一样，我包括头文件，使用irr命名空间，并告诉链接器与.lib文件链接。
 */
 #ifdef _MSC_VER
 // We'll also define this to stop MSVC complaining about sprintf().
@@ -23,30 +20,29 @@ and tell the linker to link with the .lib file.
 using namespace irr;
 
 /*
-To receive events like mouse and keyboard input, or GUI events like "the OK
-button has been clicked", we need an object which is derived from the
-irr::IEventReceiver object. There is only one method to override:
-irr::IEventReceiver::OnEvent(). This method will be called by the engine once
-when an event happens. What we really want to know is whether a key is being
-held down, and so we will remember the current state of each key.
+要接收诸如鼠标和键盘输入之类的事件，或诸如“单击OK按钮已被单击”之类的GUI事件，我们需要一个从irr::IEventReceiver对象派生的对象。
+只有一种方法可以重写：irr::IEventReceiver::OnEvent()。
+事件发生时，引擎将立即调用此方法。
+我们真正想知道的是是否按住了某个键，因此我们将记住每个键的当前状态。
 */
 class MyEventReceiver : public IEventReceiver
 {
 public:
-	// This is the one method that we have to implement
+	// 这是我们必须实现的一个方法
 	virtual bool OnEvent(const SEvent& event)
 	{
-		// Remember whether each key is down or up
+		// 记住每个键是向下还是向上
 		if (event.EventType == irr::EET_KEY_INPUT_EVENT)
 			KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
 
 		return false;
 	}
 
-	// This is used to check whether a key is being held down
+	// 这用于检查是否按住了某个键
 	virtual bool IsKeyDown(EKEY_CODE keyCode) const
 	{
 		return KeyIsDown[keyCode];
+		//return KeyIsDown[229]; // 中文输入法返回的KeyCode总是229，切换成英文输入法就可以移动球体了
 	}
 
 	MyEventReceiver()
@@ -56,28 +52,27 @@ public:
 	}
 
 private:
-	// We use this array to store the current state of each key
+	// 我们使用此数组存储每个键的当前状态
 	bool KeyIsDown[KEY_KEY_CODES_COUNT];
 };
 
 
 /*
-The event receiver for keeping the pressed keys is ready, the actual responses
-will be made inside the render loop, right before drawing the scene. So lets
-just create an irr::IrrlichtDevice and the scene node we want to move. We also
-create some other additional scene nodes, to show that there are also some
-different possibilities to move and animate scene nodes.
+用于保持按下键的事件接收器已准备就绪，实际的响应将在绘制场景之前在渲染循环内进行。
+因此，我们只需创建一个irr::IrrlichtDevice和我们要移动的场景节点即可。
+我们还创建了其他一些场景节点，以显示移动和设置场景节点动画的各种可能性。
 */
 int main()
 {
-	// ask user for driver
+	// 向用户询问设备
 	video::E_DRIVER_TYPE driverType = driverChoiceConsole();
 	if (driverType == video::EDT_COUNT)
 		return 1;
 
-	// create device
+	// 创建时间接收器
 	MyEventReceiver receiver;
 
+	// 创建设备
 	IrrlichtDevice* device = createDevice(driverType,
 		core::dimension2d<u32>(640, 480), 16, false, false, false, &receiver);
 
@@ -88,11 +83,10 @@ int main()
 	scene::ISceneManager* smgr = device->getSceneManager();
 
 	/*
-	Create the node which will be moved with the WSAD keys. We create a
-	sphere node, which is a built-in geometry primitive. We place the node
-	at (0,0,30) and assign a texture to it to let it look a little bit more
-	interesting. Because we have no dynamic lights in this scene we disable
-	lighting for each model (otherwise the models would be black).
+	创建将使用WSAD按键移动的节点。
+	我们创建一个球体节点，它是一个内置的几何图元。
+	我们将节点放置在（0,0,30）处并为其分配纹理，以使其看起来更有趣。
+	因为我们在该场景中没有动态光源，所以我们为每个模型都禁用了照明（否则模型将是黑色的）。
 	*/
 	scene::ISceneNode* node = smgr->addSphereSceneNode();
 	if (node)
@@ -103,13 +97,10 @@ int main()
 	}
 
 	/*
-	Now we create another node, movable using a scene node animator. Scene
-	node animators modify scene nodes and can be attached to any scene node
-	like mesh scene nodes, billboards, lights and even camera scene nodes.
-	Scene node animators are not only able to modify the position of a
-	scene node, they can also animate the textures of an object for
-	example. We create a cube scene node and attach a 'fly circle' scene
-	node animator to it, letting this node fly around our sphere scene node.
+	现在，我们创建另一个节点，该节点可以使用场景节点动画器（animator）移动。
+	场景节点动画器可以修改场景节点，并且可以将其附加到任何场景节点，例如网格场景节点，广告牌，灯光甚至相机场景节点。
+	场景节点动画器不仅能够修改场景节点的位置，而且还可以对对象的纹理进行动画处理。
+	我们创建一个多维数据集场景节点，并在其上附加一个“飞行圆”场景节点动画制作器，以使该节点围绕我们的球体场景节点飞行。
 	*/
 	scene::ISceneNode* n = smgr->addCubeSceneNode();
 
@@ -127,8 +118,7 @@ int main()
 	}
 
 	/*
-	The last scene node we add to show possibilities of scene node animators is
-	a b3d model, which uses a 'fly straight' animator to run between to points.
+	我们添加来显示场景节点动画器可能性的最后一个场景节点是b3d模型，该模型使用“直飞”动画器在点之间运行。
 	*/
 	scene::IAnimatedMeshSceneNode* anms =
 		smgr->addAnimatedMeshSceneNode(smgr->getMesh("../../media/ninja.b3d"));
@@ -145,16 +135,10 @@ int main()
 		}
 
 		/*
-		To make the model look right we disable lighting, set the
-		frames between which the animation should loop, rotate the
-		model around 180 degrees, and adjust the animation speed and
-		the texture. To set the right animation (frames and speed), we
-		would also be able to just call
-		"anms->setMD2Animation(scene::EMAT_RUN)" for the 'run'
-		animation instead of "setFrameLoop" and "setAnimationSpeed",
-		but this only works with MD2 animations, and so you know how to
-		start other animations. But a good advice is to not use
-		hardcoded frame-numbers...
+		为了使模型看起来正确，我们禁用照明，设置动画应在其间循环的帧，将模型旋转180度，并调整动画速度和纹理。
+		要设置正确的动画（帧和速度），我们还可以调用"anms->setMD2Animation(scene::EMAT_RUN)"用于“运行”动画，而不是“setFrameLoop”和“setAnimationSpeed”
+		但这仅适用于MD2动画，因此您知道如何开始其他动画。
+		但是一个好的建议是不要使用硬编码的帧号...
 		*/
 		anms->setMaterialFlag(video::EMF_LIGHTING, false);
 
@@ -170,14 +154,13 @@ int main()
 
 
 	/*
-	To be able to look at and move around in this scene, we create a first
-	person shooter style camera and make the mouse cursor invisible.
+	为了能够在此场景中观察和移动，我们创建了第一人称射击游戏风格的相机，并使鼠标光标不可见。
 	*/
 	smgr->addCameraSceneNodeFPS();
 	device->getCursorControl()->setVisible(false);
 
 	/*
-	Add a colorful irrlicht logo
+	添加色彩丰富的irrlicht Logo
 	*/
 	device->getGUIEnvironment()->addImage(
 		driver->getTexture("../../media/irrlichtlogoalpha2.tga"),
@@ -188,28 +171,25 @@ int main()
 	diagnostics->setOverrideColor(video::SColor(255, 255, 255, 0));
 
 	/*
-	We have done everything, so lets draw it. We also write the current
-	frames per second and the name of the driver to the caption of the
-	window.
+	我们已经完成了所有工作，所以让我们来绘制它。
+	我们还将每秒的当前帧数和驱动程序的名称写入窗口的标题。
 	*/
 	int lastFPS = -1;
 
-	// In order to do framerate independent movement, we have to know
-	// how long it was since the last frame
+	// 为了进行独立于帧速率的运动，我们必须知道自上一帧以来已经过了多长时间
 	u32 then = device->getTimer()->getTime();
 
-	// This is the movemen speed in units per second.
+	// 这是移动速度，单位为每秒。
 	const f32 MOVEMENT_SPEED = 5.f;
 
 	while (device->run())
 	{
-		// Work out a frame delta time.
+		// 算出帧增量时间
 		const u32 now = device->getTimer()->getTime();
 		const f32 frameDeltaTime = (f32)(now - then) / 1000.f; // Time in seconds
 		then = now;
 
-		/* Check if keys W, S, A or D are being held down, and move the
-		sphere node around respectively. */
+		/* 检查是否按住W，S，A或D键，然后分别移动球体节点。*/
 		core::vector3df nodePosition = node->getPosition();
 
 		if (receiver.IsKeyDown(irr::KEY_KEY_W))
@@ -226,8 +206,8 @@ int main()
 
 		driver->beginScene(true, true, video::SColor(255, 113, 113, 133));
 
-		smgr->drawAll(); // draw the 3d scene
-		device->getGUIEnvironment()->drawAll(); // draw the gui environment (the logo)
+		smgr->drawAll(); // 绘制3D场景
+		device->getGUIEnvironment()->drawAll(); // 绘制gui环境（Logo）
 
 		driver->endScene();
 

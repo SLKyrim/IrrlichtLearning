@@ -1,67 +1,34 @@
 /** Example 001 HelloWorld
 
-This Tutorial shows how to set up the IDE for using the Irrlicht Engine and how
-to write a simple HelloWorld program with it. The program will show how to use
-the basics of the VideoDriver, the GUIEnvironment, and the SceneManager.
-Microsoft Visual Studio is used as an IDE, but you will also be able to
-understand everything if you are using a different one or even another
-operating system than windows.
+本教程说明如何设置IDE以使用Irrlicht引擎，以及如何使用它编写一个简单的HelloWorld程序。
+该程序将显示如何使用VideoDriver，GUIEnvironment和SceneManager的基础知识。
+Microsoft Visual Studio用作IDE，但是如果您使用的操作系统不同于Windows，甚至还可以使用其他操作系统，那么您也将能够理解所有内容。
 
-You have to include the header file <irrlicht.h> in order to use the engine. The
-header file can be found in the Irrlicht Engine SDK directory \c include. To let
-the compiler find this header file, the directory where it is located has to be
-specified. This is different for every IDE and compiler you use. Let's explain
-shortly how to do this in Microsoft Visual Studio:
+您必须包括头文件<irrlicht.h>才能使用引擎。
+头文件可以在Irrlicht Engine SDK目录include中找到。
+为了让编译器找到该头文件，必须指定该文件所在的目录。
+对于您使用的每个IDE和编译器，这都是不同的。
+让我们简短地解释一下如何在Microsoft Visual Studio 2019中执行此操作：
+1、新建一个C++空项目，然后选择 项目->“项目”属性
+2、首先配置好编译配置和平台；然后在VC++目录中 包含目录选择下载好的SDK的include目录；库目录选择SDK的lib目录中对应操作系统的目录
+3、将SDK中bin目录中对应操作系统的目录中的Irrlicht.dll文件复制到项目根目录
+4、将SDK中media目录中的模型（sydney.md2）和贴图文件（sydney.bmp）复制到项目根目录中
 
-- If you use Version 6.0, select the Menu Extras -> Options.
-  Select the directories tab, and select the 'Include' Item in the combo box.
-  Add the \c include directory of the irrlicht engine folder to the list of
-  directories. Now the compiler will find the Irrlicht.h header file. We also
-  need the irrlicht.lib to be found, so stay in that dialog, select 'Libraries'
-  in the combo box and add the \c lib/VisualStudio directory.
-  \image html "vc6optionsdir.jpg"
-  \image latex "vc6optionsdir.jpg"
-  \image html "vc6include.jpg"
-  \image latex "vc6include.jpg"
-
-- If your IDE is Visual Studio .NET, select Tools -> Options.
-  Select the projects entry and then select VC++ directories. Select 'show
-  directories for include files' in the combo box, and add the \c include
-  directory of the irrlicht engine folder to the list of directories. Now the
-  compiler will find the Irrlicht.h header file. We also need the irrlicht.lib
-  to be found, so stay in that dialog, select 'show directories for Library
-  files' and add the \c lib/VisualStudio directory.
-  \image html "vcnetinclude.jpg"
-  \image latex "vcnetinclude.jpg"
-
-That's it. With your IDE set up like this, you will now be able to develop
-applications with the Irrlicht Engine.
-
-Lets start!
-
-After we have set up the IDE, the compiler will know where to find the Irrlicht
-Engine header files so we can include it now in our code.
+设置IDE之后，编译器将知道在哪里可以找到Irrlicht Engine头文件，因此我们现在可以将其包含在我们的代码中。
 */
 #include <irrlicht.h>
 
 /*
-In the Irrlicht Engine, everything can be found in the namespace 'irr'. So if
-you want to use a class of the engine, you have to write irr:: before the name
-of the class. For example to use the IrrlichtDevice write: irr::IrrlichtDevice.
-To get rid of the irr:: in front of the name of every class, we tell the
-compiler that we use that namespace from now on, and we will not have to write
-irr:: anymore.
+在Irrlicht引擎中，所有内容都可以在名称空间“irr”中找到。
+因此，如果要使用引擎的类，则必须在该类的名称之前编写irr::
+例如，使用IrrlichtDevice编写：irr::IrrlichtDevice
+为了摆脱irr::在每个类的名称前面，我们告诉编译器我们从现在开始使用该名称空间，并且我们将不再需要编写irr::
 */
 using namespace irr;
 
 /*
-There are 5 sub namespaces in the Irrlicht Engine. Take a look at them, you can
-read a detailed description of them in the documentation by clicking on the top
-menu item 'Namespace List' or by using this link:
-http://irrlicht.sourceforge.net/docu/namespaces.html
-Like the irr namespace, we do not want these 5 sub namespaces now, to keep this
-example simple. Hence, we tell the compiler again that we do not want always to
-write their names.
+Irrlicht引擎中有5个子名称空间。 看看它们，您可以使用此链接来阅读它们的详细说明：http://irrlicht.sourceforge.net/docu/namespaces.html
+如irr名称空间一样，我们现在不希望一直声明这5个子名称空间，以使此示例保持简单。因此，我们再次告诉编译器我们不希望总是写它们的名称。
 */
 using namespace core;
 using namespace scene;
@@ -70,12 +37,10 @@ using namespace io;
 using namespace gui;
 
 /*
-To be able to use the Irrlicht.DLL file, we need to link with the Irrlicht.lib.
-We could set this option in the project settings, but to make it easy, we use a
-pragma comment lib for VisualStudio. On Windows platforms, we have to get rid
-of the console window, which pops up when starting a program with main(). This
-is done by the second pragma. We could also use the WinMain method, though
-losing platform independence then.
+为了能够使用Irrlicht.DLL文件，我们需要与Irrlicht.lib链接。
+我们可以在项目设置中设置此选项，但是为了简单起见，我们为VisualStudio使用了杂注注释库。
+在Windows平台上，我们必须摆脱控制台窗口，该控制台窗口在使用main()启动程序时会弹出。
+这是由第二个实用程序完成的。我们也可以使用WinMain方法，尽管那样会失去平台独立性。
 */
 #ifdef _IRR_WINDOWS_
 #pragma comment(lib, "Irrlicht.lib")
@@ -89,37 +54,18 @@ This is the main method. We can now use main() on every platform.
 int main()
 {
 	/*
-	The most important function of the engine is the createDevice()
-	function. The IrrlichtDevice is created by it, which is the root
-	object for doing anything with the engine. createDevice() has 7
-	parameters:
+	引擎最重要的功能是createDevice（）函数。  
+	IrrlichtDevice由它创建，它是使用引擎执行任何操作的根对象。createDevice（）具有7个参数：
+	- deviceType: 设备的类型。 当前可以是Null设备，可以是软件渲染器D3D8，D3D9或OpenGL三者之一。 
+	在此示例中，我们使用EDT_SOFTWARE，但要进行尝试，您可能需要将其更改为EDT_BURNINGSVIDEO，EDT_NULL，EDT_DIRECT3D8，EDT_DIRECT3D9或EDT_OPENGL.
+	- windowSize: 要在FullScreenMode中创建的窗口或屏幕的大小。在此示例中，我们使用640x480.
+	- bits: 每个像素的颜色位数。它应该是16或32。在窗口模式下运行时，通常会忽略该参数。
+	- fullscreen: 指定我们是否希望设备以全屏模式运行。
+	- stencilbuffer: 指定是否要使用模板缓冲区（用于绘制阴影）。
+	- vsync: 指定是否要启用vsync，这仅在全屏模式下有用。
+	- eventReceiver: 接收事件的对象。我们不想在这里使用此参数，并将其设置为0。
 
-	- deviceType: Type of the device. This can currently be the Null-device,
-	   one of the two software renderers, D3D8, D3D9, or OpenGL. In this
-	   example we use EDT_SOFTWARE, but to try out, you might want to
-	   change it to EDT_BURNINGSVIDEO, EDT_NULL, EDT_DIRECT3D8,
-	   EDT_DIRECT3D9, or EDT_OPENGL.
-
-	- windowSize: Size of the Window or screen in FullScreenMode to be
-	   created. In this example we use 640x480.
-
-	- bits: Amount of color bits per pixel. This should be 16 or 32. The
-	   parameter is often ignored when running in windowed mode.
-
-	- fullscreen: Specifies if we want the device to run in fullscreen mode
-	   or not.
-
-	- stencilbuffer: Specifies if we want to use the stencil buffer (for
-	   drawing shadows).
-
-	- vsync: Specifies if we want to have vsync enabled, this is only useful
-	   in fullscreen mode.
-
-	- eventReceiver: An object to receive events. We do not want to use this
-	   parameter here, and set it to 0.
-
-	Always check the return value to cope with unsupported drivers,
-	dimensions, etc.
+	始终检查返回值以应对不支持的驱动器，尺寸等。
 	*/
 	IrrlichtDevice* device =
 		createDevice(video::EDT_SOFTWARE, dimension2d<u32>(640, 480), 16,
@@ -129,41 +75,33 @@ int main()
 		return 1;
 
 	/*
-	Set the caption of the window to some nice text. Note that there is an
-	'L' in front of the string. The Irrlicht Engine uses wide character
-	strings when displaying text.
+	将窗口的标题设置为一些漂亮的文本。 
+	请注意，字符串前面有一个“L”。Irrlicht引擎在显示文本时使用宽字符串
 	*/
 	device->setWindowCaption(L"Hello World! - Irrlicht Engine Demo");
 
 	/*
-	Get a pointer to the VideoDriver, the SceneManager and the graphical
-	user interface environment, so that we do not always have to write
-	device->getVideoDriver(), device->getSceneManager(), or
-	device->getGUIEnvironment().
+	获取指向VideoDriver，SceneManager和图形用户界面环境的指针，
+	以便我们不必总是编写device->getVideoDriver()，device->getSceneManager()或device->getGUIEnvironment()
 	*/
 	IVideoDriver* driver = device->getVideoDriver();
 	ISceneManager* smgr = device->getSceneManager();
 	IGUIEnvironment* guienv = device->getGUIEnvironment();
 
 	/*
-	We add a hello world label to the window, using the GUI environment.
-	The text is placed at the position (10,10) as top left corner and
-	(260,22) as lower right corner.
+	我们使用GUI环境在窗口中添加一个hello world标签。
+    文本放在左上角（10,10）和右下角（260,22）处。
 	*/
 	guienv->addStaticText(L"Hello World! This is the Irrlicht Software renderer!",
 		rect<s32>(10, 10, 260, 22), true);
 
 	/*
-	To show something interesting, we load a Quake 2 model and display it.
-	We only have to get the Mesh from the Scene Manager with getMesh() and add
-	a SceneNode to display the mesh with addAnimatedMeshSceneNode(). We
-	check the return value of getMesh() to become aware of loading problems
-	and other errors.
+	为了显示一些有趣的东西，我们加载Quake 2模型并显示它。
+	我们只需要使用getMesh（）从“场景管理器”中获取网格物体，并添加一个SceneNode即可使用addAnimatedMeshSceneNode（）显示网格物体。 
+	我们检查getMesh（）的返回值以了解加载问题和其他错误。
 
-	Instead of writing the filename sydney.md2, it would also be possible
-	to load a Maya object file (.obj), a complete Quake3 map (.bsp) or any
-	other supported file format. By the way, that cool Quake 2 model
-	called sydney was modelled by Brian Collins.
+	除了编写文件名sydney.md2，还可以加载Maya目标文件（.obj），完整的Quake3映射（.bsp）或任何其他受支持的文件格式。 
+	顺便说一句，酷炫的Quake 2模型叫做Sydney是由Brian Collins建模的。
 	*/
 	IAnimatedMesh* mesh = smgr->getMesh("../../media/sydney.md2");
 	if (!mesh)
@@ -174,12 +112,10 @@ int main()
 	IAnimatedMeshSceneNode* node = smgr->addAnimatedMeshSceneNode(mesh);
 
 	/*
-	To let the mesh look a little bit nicer, we change its material. We
-	disable lighting because we do not have a dynamic light in here, and
-	the mesh would be totally black otherwise. Then we set the frame loop,
-	such that the predefined STAND animation is used. And last, we apply a
-	texture to the mesh. Without it the mesh would be drawn using only a
-	color.
+	为了让网格看起来更好一点，我们更改其材质。 
+	我们禁用照明，因为此处没有动态照明，否则网格将完全变为黑色。 
+	然后，我们设置帧循环，以便使用预定义的STAND动画。 
+	最后，我们将纹理应用于网格。 如果没有它，将仅使用一种颜色来绘制网格。
 	*/
 	if (node)
 	{
@@ -189,26 +125,23 @@ int main()
 	}
 
 	/*
-	To look at the mesh, we place a camera into 3d space at the position
-	(0, 30, -40). The camera looks from there to (0,5,0), which is
-	approximately the place where our md2 model is.
+	为了查看网格，我们将相机放置在3d空间中的位置（0、30，-40）。 
+	相机从那里看向（0,5,0），大约是我们的md2模型所在的地方。
 	*/
 	smgr->addCameraSceneNode(0, vector3df(0, 30, -40), vector3df(0, 5, 0));
 
 	/*
-	Ok, now we have set up the scene, lets draw everything: We run the
-	device in a while() loop, until the device does not want to run any
-	more. This would be when the user closes the window or presses ALT+F4
-	(or whatever keycode closes a window).
+	好的，现在我们已经设置好场景，让我们绘制所有内容：
+	我们在while（）循环中运行设备，直到该设备不再需要运行为止。 
+	这将是用户关闭窗口或按ALT + F4（或任何键码关闭窗口）的时间。
 	*/
 	while (device->run())
 	{
 		/*
-		Anything can be drawn between a beginScene() and an endScene()
-		call. The beginScene() call clears the screen with a color and
-		the depth buffer, if desired. Then we let the Scene Manager and
-		the GUI Environment draw their content. With the endScene()
-		call everything is presented on the screen.
+		在beginScene（）和endScene（）调用之间可以绘制任何内容。 
+		如果需要，beginScene（）调用将使用颜色和深度缓冲区清除屏幕。 
+		然后，让场景管理器和GUI环境绘制它们的内容。
+		通过endScene（）调用，所有内容都会显示在屏幕上。
 		*/
 		driver->beginScene(true, true, SColor(255, 100, 101, 140));
 
@@ -219,12 +152,9 @@ int main()
 	}
 
 	/*
-	After we are done with the render loop, we have to delete the Irrlicht
-	Device created before with createDevice(). In the Irrlicht Engine, you
-	have to delete all objects you created with a method or function which
-	starts with 'create'. The object is simply deleted by calling ->drop().
-	See the documentation at irr::IReferenceCounted::drop() for more
-	information.
+	完成渲染循环后，我们必须删除使用createDevice（）之前创建的Irrlicht设备。 
+	在Irrlicht引擎中，您必须删除使用以'create'开头的方法或函数创建的所有对象。只需调用-> drop（）即可删除该对象。
+	有关更多信息，请参见irr::IReferenceCounted::drop（）上的文档。
 	*/
 	device->drop();
 

@@ -1,14 +1,10 @@
 /** Example 005 User Interface
 
-This tutorial shows how to use the built in User Interface of
-the Irrlicht Engine. It will give a brief overview and show
-how to create and use windows, buttons, scroll bars, static
-texts, and list boxes.
+本教程显示了如何使用Irrlicht引擎的内置用户界面。
+它将简要概述并显示如何创建和使用窗口，按钮，滚动条，静态文本和列表框。
 
-As always, we include the header files, and use the irrlicht
-namespaces. We also store a pointer to the Irrlicht device,
-a counter variable for changing the creation position of a window,
-and a pointer to a listbox.
+与往常一样，我们包括头文件，并使用irrlicht名称空间。
+我们还存储了指向Irrlicht设备的指针，用于更改窗口的创建位置的计数器变量以及指向列表框的指针。
 */
 #include <irrlicht.h>
 #include "driverChoice.h"
@@ -25,8 +21,7 @@ using namespace gui;
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
-// Declare a structure to hold some context for the event receiver so that it
-// has it available inside its OnEvent() method.
+// 声明一个结构以保留事件接收器的某些上下文，以使其在其OnEvent()方法中可用。
 struct SAppContext
 {
 	IrrlichtDevice* device;
@@ -34,7 +29,7 @@ struct SAppContext
 	IGUIListBox* listbox;
 };
 
-// Define some values that we'll use to identify individual GUI controls.
+// 定义一些我们将用来标识单个GUI控件的值。
 enum
 {
 	GUI_ID_QUIT_BUTTON = 101,
@@ -44,7 +39,7 @@ enum
 };
 
 /*
-	Set the skin transparency by changing the alpha values of all skin-colors
+	通过更改所有肤色的Alpha值来设置皮肤透明度
 */
 void setSkinTransparency(s32 alpha, irr::gui::IGUISkin* skin)
 {

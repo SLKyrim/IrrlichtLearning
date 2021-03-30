@@ -1,55 +1,39 @@
 /** Example 002 Quake3Map
 
-This Tutorial shows how to load a Quake 3 map into the engine, create a
-SceneNode for optimizing the speed of rendering, and how to create a user
-controlled camera.
-
-Please note that you should know the basics of the engine before starting this
-tutorial. Just take a short look at the first tutorial, if you haven't done
-this yet: http://irrlicht.sourceforge.net/tut001.html
-
-Lets start like the HelloWorld example: We include the irrlicht header files
-and an additional file to be able to ask the user for a driver type using the
-console.
+这份指南将为你演示如何向引擎中载入一张Quake3地图文件,并且告诉你如何最
+便捷优化的创建一个场景节点渲染，以及创建一个用户控制的摄像机。
+让我们像上一个HelloWorld例子一样做吧，首先包含irr引擎头文件。
+另外包含一个iostram头为方便用户的控制台输入
 */
 #include <irrlicht.h>
 #include <iostream>
 
 /*
-As already written in the HelloWorld example, in the Irrlicht Engine everything
-can be found in the namespace 'irr'. To get rid of the irr:: in front of the
-name of every class, we tell the compiler that we use that namespace from now
-on, and we will not have to write that 'irr::'. There are 5 other sub
-namespaces 'core', 'scene', 'video', 'io' and 'gui'. Unlike in the HelloWorld
-example, we do not call 'using namespace' for these 5 other namespaces, because
-in this way you will see what can be found in which namespace. But if you like,
-you can also include the namespaces like in the previous example.
+类似于写HelloWorld例子之前需要做的准备一样，在irrlicht引擎中，一切函数，
+类命名都是在irr命名空间内的。我们依旧要告诉编辑器我们现在使用的函数当在irr命名空间
+内寻找，它们五个子命名空间，Core，Scene，video，io，Gui，与HelloWorld不同
+的是，我们这里没有为五个子空间分别指定命名空间的通知，因为这样做的话，在下面的代码中，
+你将更容易获知每个函数到底属于哪个命名空间内的。当然，你也可以加上using
 */
 using namespace irr;
 
 /*
-Again, to be able to use the Irrlicht.DLL file, we need to link with the
-Irrlicht.lib. We could set this option in the project settings, but to make it
-easy, we use a pragma comment lib:
+同样，为了可以使用irrlicht.DLL文件，我们需要链接一个irrlicht.lib文件。我们需要进行项目设置
+，或者在代码中进行一次连接声明
 */
 #ifdef _MSC_VER
 #pragma comment(lib, "Irrlicht.lib")
 #endif
 
 /*
-Ok, lets start. Again, we use the main() method as start, not the WinMain().
+OK，我们开始。main()入口
 */
 int main()
 {
 	/*
-	Like in the HelloWorld example, we create an IrrlichtDevice with
-	createDevice(). The difference now is that we ask the user to select
-	which video driver to use. The Software device might be
-	too slow to draw a huge Quake 3 map, but just for the fun of it, we make
-	this decision possible, too.
-	Instead of copying this whole code into your app, you can simply include
-	driverChoice.h from Irrlicht's include directory. The function
-	driverChoiceConsole does exactly the same.
+	类似HelloWorld例子，我们通过CreateDevice创建一个Irr设备，不过在这里我们允许
+	用户进行硬件加速设备的选择，其中软件模拟进行了一次巨大的Q3场景加载将会相当慢，
+	不过为了进行演示有这样一个功能，我们也把它列做选项了。
 	*/
 
 	// ask user for driver
@@ -75,7 +59,7 @@ int main()
 	default: return 1;
 	}
 
-	// create device and exit if creation failed
+	// 创建irr设备；如果创建失败则退出
 
 	IrrlichtDevice* device =
 		createDevice(driverType, core::dimension2d<u32>(640, 480));
@@ -84,41 +68,30 @@ int main()
 		return 1; // could not create selected driver.
 
 	/*
-	Get a pointer to the video driver and the SceneManager so that
-	we do not always have to call irr::IrrlichtDevice::getVideoDriver() and
-	irr::IrrlichtDevice::getSceneManager().
+	获取指向视频驱动程序和SceneManager的指针，
+	这样我们就不必总是调用irr::IrrlichtDevice::getVideoDriver()和irr::IrrlichtDevice::getSceneManager()。
 	*/
 	video::IVideoDriver* driver = device->getVideoDriver();
 	scene::ISceneManager* smgr = device->getSceneManager();
 
 	/*
-	To display the Quake 3 map, we first need to load it. Quake 3 maps
-	are packed into .pk3 files which are nothing else than .zip files.
-	So we add the .pk3 file to our irr::io::IFileSystem. After it was added,
-	we are able to read from the files in that archive as if they are
-	directly stored on the disk.
+	要显示Quake 3地图，我们首先需要加载它。
+	雷神之锤3的地图打包成.pk3文件，相当于.zip文件。
+    因此，我们将.pk3文件添加到了irr::io::IFileSystem中。
+	添加之后，我们就可以从该存档中读取文件，就像它们直接存储在磁盘上一样。
 	*/
 	device->getFileSystem()->addFileArchive("../../media/map-20kdm2.pk3");
 
 	/*
-	Now we can load the mesh by calling
-	irr::scene::ISceneManager::getMesh(). We get a pointer returned to an
-	irr::scene::IAnimatedMesh. As you might know, Quake 3 maps are not
-	really animated, they are only a huge chunk of static geometry with
-	some materials attached. Hence the IAnimatedMesh consists of only one
-	frame, so we get the "first frame" of the "animation", which is our
-	quake level and create an Octree scene node with it, using
-	irr::scene::ISceneManager::addOctreeSceneNode().
-	The Octree optimizes the scene a little bit, trying to draw only geometry
-	which is currently visible. An alternative to the Octree would be a
-	irr::scene::IMeshSceneNode, which would always draw the complete
-	geometry of the mesh, without optimization. Try it: Use
-	irr::scene::ISceneManager::addMeshSceneNode() instead of
-	addOctreeSceneNode() and compare the primitives drawn by the video
-	driver. (There is a irr::video::IVideoDriver::getPrimitiveCountDrawn()
-	method in the irr::video::IVideoDriver class). Note that this
-	optimization with the Octree is only useful when drawing huge meshes
-	consisting of lots of geometry.
+	现在，我们可以通过调用irr::scene::ISceneManager::getMesh()来加载网格。 
+	我们得到一个返回到irr::scene::IAnimatedMesh的指针。 
+	如您所知，《雷神之锤3》的地图并不是真正的动画，它们只是一大块静态几何图形，并附加了一些材质。 
+	因此，IAnimatedMesh仅由一个帧组成，因此我们获得了“动画”（即地震级别）的“第一帧”，并使用irr::scene::ISceneManager::addOctreeSceneNode（）创建了一个八度场景节点。
+    Octree稍微优化了场景，尝试仅绘制当前可见的几何图形。 
+	Octree的替代方法是irr::scene::IMeshSceneNode，它将始终绘制网格的完整几何图形，而无需进行优化。 
+	尝试：使用irr::scene::ISceneManager::addMeshSceneNode()而不是addOctreeSceneNode()并比较视频驱动程序绘制的基元。  
+	（在irr::video::IVideoDriver类中有一个irr::video::IVideoDriver::getPrimitiveCountDrawn()方法）。 
+	请注意，使用Octree进行的优化仅在绘制包含大量几何图形的巨大网格时才有用。
 	*/
 	scene::IAnimatedMesh* mesh = smgr->getMesh("20kdm2.bsp");
 	scene::ISceneNode* node = 0;
@@ -128,44 +101,31 @@ int main()
 	//		node = smgr->addMeshSceneNode(mesh->getMesh(0));
 
 		/*
-		Because the level was not modelled around the origin (0,0,0), we
-		translate the whole level a little bit. This is done on
-		irr::scene::ISceneNode level using the methods
-		irr::scene::ISceneNode::setPosition() (in this case),
-		irr::scene::ISceneNode::setRotation(), and
-		irr::scene::ISceneNode::setScale().
+		我们将世界矩阵的原点进行了一些平移以适应这个模型
 		*/
 	if (node)
 		node->setPosition(core::vector3df(-1300, -144, -1249));
 
 	/*
-	Now we only need a camera to look at the Quake 3 map.
-	We want to create a user controlled camera. There are some
-	cameras available in the Irrlicht engine. For example the
-	MayaCamera which can be controlled like the camera in Maya:
-	Rotate with left mouse button pressed, Zoom with both buttons pressed,
-	translate with right mouse button pressed. This could be created with
-	irr::scene::ISceneManager::addCameraSceneNodeMaya(). But for this
-	example, we want to create a camera which behaves like the ones in
-	first person shooter games (FPS) and hence use
-	irr::scene::ISceneManager::addCameraSceneNodeFPS().
+	现在我们仅仅需要一个摄像机去观察这张地图。这次我们设计一个可用户控制的
+	灵活摄像机。在irr引擎中有许多不同类型的摄像机；例如，Maya摄像机就类似于
+	Maya软件中的摄像机控制，左键按下可进行旋转，两键按下就可以进行缩放，右键按下
+	就可以进行移动。假如我们想创建这样操作方式的摄像机，那么只要addCameraSceneNodeMaya()
+	就可以了。而我们现在需要设计的摄像机则类似于标准FPS的控制设定，所以我们调用
+	addCameraSceneNodeFPS()函数来创建。
 	*/
 	smgr->addCameraSceneNodeFPS();
 
 	/*
-	The mouse cursor needs not be visible, so we hide it via the
-	irr::IrrlichtDevice::ICursorControl.
+	鼠标光标不需要是可见的，因此我们通过irr::IrrlichtDevice::ICursorControl将其隐藏。
 	*/
 	device->getCursorControl()->setVisible(false);
 
 	/*
-	We have done everything, so lets draw it. We also write the current
-	frames per second and the primitives drawn into the caption of the
-	window. The test for irr::IrrlichtDevice::isWindowActive() is optional,
-	but prevents the engine to grab the mouse cursor after task switching
-	when other programs are active. The call to
-	irr::IrrlichtDevice::yield() will avoid the busy loop to eat up all CPU
-	cycles when the window is not active.
+	我们做完了所有的事情，现在我们开始绘制它把。我们还需要在窗口的标题上
+	显示当前的FPS。
+	if(device->isWindowsActive())这一行代码是可选的，但是为了预防由于
+	切换活动窗口而导致引擎渲染帧速率显示不正确，还是加上吧。
 	*/
 	int lastFPS = -1;
 
@@ -195,7 +155,7 @@ int main()
 	}
 
 	/*
-	In the end, delete the Irrlicht device.
+	最后，记得销毁Irrlicht设备。
 	*/
 	device->drop();
 	return 0;
